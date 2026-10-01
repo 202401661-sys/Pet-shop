@@ -1,0 +1,23 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Dominik's Pizza</title>
+<style>
+*{box-sizing:border-box;margin:0}body{font-family:Arial,sans-serif;background:#f4f4f4;color:#222}
+header{background:#006491;color:#fff;padding:16px 6%;display:flex;justify-content:space-between}
+.hero{background:#e31837;color:#fff;text-align:center;padding:60px 6%}.hero h1{font-size:2.4rem}
+.wrap{display:grid;grid-template-columns:2fr 1fr;gap:24px;padding:30px 6%}
+.menu{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px}
+.item{background:#fff;padding:16px;border-radius:8px;text-align:center}.item span{font-size:2.5rem}
+button{background:#006491;color:#fff;border:0;padding:8px 14px;border-radius:4px;cursor:pointer}
+.cart{background:#fff;padding:16px;border-radius:8px;height:fit-content}.cart li{display:flex;justify-content:space-between;margin:6px 0;list-style:none}
+@media(max-width:700px){.wrap{grid-template-columns:1fr}}
+</style></head><body>
+<header><b>Dominik's Pizza</b><span>Order online</span></header>
+<section class="hero"><h1>Hot pizza, delivered fast</h1><p>Pick your favorites and build your order.</p></section>
+<div class="wrap"><div class="menu" id="m"></div>
+<aside class="cart"><h3>Your order</h3><ul id="l"></ul><hr><p><b>Total: $<span id="t">0</span></b></p><button onclick="clr()">Clear</button></aside></div>
+<script>
+const p=[["🍕","Margherita",8],["🍕","Pepperoni",10],["🍕","Veggie",9],["🍗","Chicken wings",7],["🥤","Cola",2],["🍰","Brownie",4]];
+let o=[];const m=document.getElementById("m");
+p.forEach(([e,n,c],i)=>m.insertAdjacentHTML("beforeend",`<div class="item"><span>${e}</span><h4>${n}</h4><p>$${c}</p><button onclick="add(${i})">Add</button></div>`));
+function add(i){o.push(p[i]);draw()}function clr(){o=[];draw()}
+function draw(){l.innerHTML=o.map(x=>`<li>${x[1]}<span>$${x[2]}</span></li>`).join("");t.textContent=o.reduce((a,x)=>a+x[2],0)}
+</script></body></html>
