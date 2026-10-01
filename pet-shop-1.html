@@ -1,0 +1,21 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Paw Corner</title>
+<style>
+*{box-sizing:border-box;margin:0}body{font-family:Georgia,serif;background:#fdf6ec;color:#3b2f2f}
+header{display:flex;justify-content:space-between;align-items:center;padding:16px 6%;background:#2f6f62;color:#fff}
+nav a{color:#fff;margin-left:16px;text-decoration:none}.hero{padding:70px 6%;text-align:center;background:#f3d9b1}
+.hero h1{font-size:2.6rem}.hero p{margin:12px 0 20px}
+button{background:#e07a3f;color:#fff;border:0;padding:10px 18px;border-radius:6px;cursor:pointer;font-size:1rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;padding:40px 6%}
+.card{background:#fff;padding:20px;border-radius:10px;text-align:center}.card .e{font-size:3rem}.card p{margin:8px 0}
+footer{text-align:center;padding:20px;background:#2f6f62;color:#fff}
+</style></head><body>
+<header><b>🐾 Paw Corner</b><nav><a href="#shop">Shop</a><a href="#cart">Cart (<span id="n">0</span>)</a></nav></header>
+<section class="hero"><h1>Everything your pet needs</h1><p>Food, toys and friends for dogs, cats and birds.</p><a href="#shop"><button>Shop now</button></a></section>
+<section class="grid" id="shop"></section>
+<footer id="cart">Items in cart: <span id="n2">0</span> | Total: $<span id="t">0</span></footer>
+<script>
+const items=[["🐶","Puppy","Golden retriever puppy",300],["🐱","Kitten","Persian kitten",250],["🦜","Parrot","Talking parrot",180],["🦴","Dog food","5kg dry food",25],["🧶","Cat toy","Yarn ball set",8],["🛏️","Pet bed","Soft cushion bed",30]];
+let c=0,t=0;const g=document.getElementById("shop");
+items.forEach(([e,n,d,p])=>{g.insertAdjacentHTML("beforeend",`<div class="card"><div class="e">${e}</div><h3>${n}</h3><p>${d}</p><b>$${p}</b><p><button onclick="add(${p})">Add to cart</button></p></div>`)});
+function add(p){c++;t+=p;n.textContent=n2.textContent=c;document.getElementById("t").textContent=t}
+</script></body></html>
