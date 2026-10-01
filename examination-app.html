@@ -1,0 +1,42 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Exam Corner</title>
+<style>
+*{box-sizing:border-box;margin:0}body{font-family:Georgia,serif;background:#fdf6ec;color:#3b2f2f}
+header{display:flex;justify-content:space-between;align-items:center;padding:16px 6%;background:#2f6f62;color:#fff}
+nav a{color:#fff;margin-left:16px;text-decoration:none}.hero{padding:70px 6%;text-align:center;background:#f3d9b1}
+.hero h1{font-size:2.6rem}.hero p{margin:12px 0 20px}
+button{background:#e07a3f;color:#fff;border:0;padding:10px 18px;border-radius:6px;cursor:pointer;font-size:1rem}
+.box{max-width:640px;margin:40px auto;padding:0 6%}
+.card{background:#fff;padding:24px;border-radius:10px}.card h3{margin-bottom:14px}
+.card button{display:block;width:100%;margin:8px 0;text-align:left;background:#fdf6ec;color:#3b2f2f;border:1px solid #e0d2bd}
+.card button:hover{background:#f3d9b1}.big{font-size:3rem;text-align:center;margin:10px 0}
+footer{text-align:center;padding:20px;background:#2f6f62;color:#fff}
+</style></head><body>
+<header><b>📝 Exam Corner</b><nav><a href="#exam">Exam</a></nav></header>
+<section class="hero"><h1>Test your web skills</h1><p>8 quick questions. Instant score.</p><a href="#exam"><button onclick="start()">Start exam</button></a></section>
+<section class="box" id="exam"><div class="card" id="q"><h3>Press Start exam to begin.</h3></div></section>
+<footer>Best score: <span id="b">-</span></footer>
+<script>
+const qs=[
+["Which tag holds the visible page content?",["head","body","meta","title"],1],
+["Which CSS property changes text color?",["font-color","text-style","color","fill"],2],
+["Which method adds an item to the end of an array?",["push","pop","shift","slice"],0],
+["What does DOM stand for?",["Data Object Model","Document Object Model","Digital Order Map","Display Object Method"],1],
+["Which HTTP status means Not Found?",["200","301","404","500"],2],
+["Which keyword declares a constant?",["var","let","const","static"],2],
+["Which layout system is built for two dimensions?",["Flexbox","Grid","Float","Inline"],1],
+["Which symbol selects an id in CSS?",[".","#","*","&"],1]];
+let i=0,s=0,best=null;
+try{best=localStorage.getItem("best")}catch(e){}
+const q=document.getElementById("q"),b=document.getElementById("b");
+if(best)b.textContent=best+"/"+qs.length;
+function start(){i=0;s=0;ask()}
+function ask(){
+const [t,o]=qs[i];
+q.innerHTML=`<p>Question ${i+1} of ${qs.length}</p><h3>${t}</h3>`+o.map((x,k)=>`<button onclick="pick(${k})">${x}</button>`).join("")}
+function pick(k){
+if(k==qs[i][2])s++;
+if(++i<qs.length)return ask();
+if(best===null||s>best){best=s;try{localStorage.setItem("best",s)}catch(e){}}
+b.textContent=best+"/"+qs.length;
+q.innerHTML=`<p>Your score</p><div class="big">${s}/${qs.length}</div><h3>${s>=5?"Passed 🎉":"Try again"}</h3><button onclick="start()" style="text-align:center">Retake</button>`}
+</script></body></html>
