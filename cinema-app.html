@@ -1,0 +1,39 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Cine Corner</title>
+<style>
+*{box-sizing:border-box;margin:0}body{font-family:Georgia,serif;background:#fdf6ec;color:#3b2f2f}
+header{display:flex;justify-content:space-between;align-items:center;padding:16px 6%;background:#2f6f62;color:#fff}
+nav a{color:#fff;margin-left:16px;text-decoration:none}.hero{padding:70px 6%;text-align:center;background:#f3d9b1}
+.hero h1{font-size:2.6rem}.hero p{margin:12px 0 20px}
+button{background:#e07a3f;color:#fff;border:0;padding:10px 18px;border-radius:6px;cursor:pointer;font-size:1rem}
+select{padding:8px;margin:4px;border-radius:6px;border:1px solid #ccc;font-family:inherit}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;padding:40px 6%}
+.card{background:#fff;padding:20px;border-radius:10px;text-align:center}.card .e{font-size:3rem}.card p{margin:8px 0}
+.list{padding:0 6% 40px}.list h2{margin-bottom:12px}.tk{background:#fff;padding:14px;border-radius:10px;margin-bottom:10px;border-left:6px solid #e07a3f}
+footer{text-align:center;padding:20px;background:#2f6f62;color:#fff}
+</style></head><body>
+<header><b>🎬 Cine Corner</b><nav><a href="#movies">Movies</a><a href="#tickets">Tickets (<span id="n">0</span>)</a></nav></header>
+<section class="hero"><h1>Your seat is waiting</h1><p>Pick a movie, a time and your seats.</p><a href="#movies"><button>Book now</button></a></section>
+<section class="grid" id="movies"></section>
+<section class="list" id="tickets"><h2>My tickets</h2><div id="l"><p>No tickets yet.</p></div></section>
+<footer>Total spent: $<span id="t">0</span></footer>
+<script>
+const movies=[["🚀","Neon Horizon","Sci-Fi · 128 min",8],["😂","Last Laugh","Comedy · 104 min",7],["👻","Midnight Echo","Horror · 96 min",8],["🏜️","Desert Run","Action · 136 min",9],["💌","Paper Hearts","Romance · 112 min",7],["🌊","Deep Blue","Sci-Fi · 119 min",8]];
+const times=["14:00","17:30","20:00","22:30"];
+let tickets=[];
+try{tickets=JSON.parse(localStorage.getItem("tickets"))||[]}catch(e){}
+const opts=a=>a.map(x=>`<option>${x}</option>`).join("");
+movies.forEach(([e,n,d,p],i)=>document.getElementById("movies").insertAdjacentHTML("beforeend",
+`<div class="card"><div class="e">${e}</div><h3>${n}</h3><p>${d}</p><b>$${p} / seat</b>
+<p><select id="t${i}">${opts(times)}</select><select id="s${i}">${opts([1,2,3,4,5,6])}</select></p>
+<p><button onclick="book(${i})">Book ticket</button></p></div>`));
+function book(i){
+const m=movies[i],s=+document.getElementById("s"+i).value;
+tickets.unshift({n:m[1],time:document.getElementById("t"+i).value,s,total:s*m[3],code:Math.random().toString(36).slice(2,8).toUpperCase()});
+try{localStorage.setItem("tickets",JSON.stringify(tickets))}catch(e){}
+show();location.hash="tickets"}
+function show(){
+document.getElementById("n").textContent=tickets.length;
+document.getElementById("t").textContent=tickets.reduce((a,x)=>a+x.total,0);
+if(tickets.length)document.getElementById("l").innerHTML=tickets.map(x=>`<div class="tk"><b>${x.n}</b> · ${x.time}<br>Seats: ${x.s} · $${x.total} · Code ${x.code}</div>`).join("")}
+show();
+</script></body></html>
